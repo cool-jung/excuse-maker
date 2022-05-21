@@ -9,7 +9,7 @@ import {
   SwapLeftOutlined,
 } from "@ant-design/icons";
 
-function ColStyle({ span, offset, value }) {
+function ColStyle({ span, offset, value, children }) {
   return (
     <Col span={span} offset={offset} value={value}>
       <div
@@ -19,6 +19,7 @@ function ColStyle({ span, offset, value }) {
           alignItems: "center",
         }}
       />
+      {children}
     </Col>
   );
 }
@@ -79,36 +80,30 @@ function SelectPage() {
 
   return (
     <Row justify="center" align="middle" style={{ height: 700 }}>
-      <Col span={16}>
-        <ColStyle
-          className="alignCenter"
-          style={{ justifyContent: "space-between", height: "200px" }}
-        >
-          <h1 style={{ textAlign: "center" }}>{excuseText}</h1>
-          <Row type="flex" justify="space-around" style={{ width: "70%" }}>
-            <ColStyle value={120} span={8} offset={5}>
-              <Button type="primary" onClick={onClickReselect}>
-                <RedoOutlined />
-                다시 선택
-              </Button>
-            </ColStyle>
-            <ColStyle value={120} span={8}>
-              <Button type="primary" onClick={copyToClipBoard}>
-                <CopyOutlined />
-                변명 확정
-              </Button>
-            </ColStyle>
-          </Row>
-          <p style={{ paddingTop: "20px" }}>
-            <Link to="../category">
-              <SwapLeftOutlined />
-              뒤로가기
-            </Link>
-          </p>
-        </ColStyle>
-      </Col>
+      <ColStyle
+        className="alignCenter"
+        style={{ justifyContent: "space-between", height: "200px" }}
+      >
+        <h1 className="textAlignCenter">{excuseText}</h1>
+        <Row type="flex" className="alignSpaceAround textAlignCenter">
+          <Button type="primary" onClick={onClickReselect}>
+            <RedoOutlined />
+            다시 선택
+          </Button>
+          <Button type="primary" onClick={copyToClipBoard}>
+            <CopyOutlined />
+            변명 확정
+          </Button>
+        </Row>
+        <p className="textAlignCenter" style={{ paddingTop: "30px" }}>
+          <Link to="../category">
+            <SwapLeftOutlined />
+            뒤로가기
+          </Link>
+        </p>
+      </ColStyle>
     </Row>
   );
 }
 
-export { SelectPage, ColStyle };
+export default SelectPage;
