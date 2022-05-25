@@ -27,43 +27,39 @@ function ColStyle({ span, offset, value, children }) {
 function randomValueExcuseArray(list) {
   const random = Math.floor(Math.random() * 10);
 
+  console.log("랜덤", random);
   return list[random];
 }
 
 function SelectPage() {
   const { selected } = useParams();
-
   const [excuseText, setExcuseText] = useState();
-  const [timeExcuseList, setTimeExcuseList] = useState();
+  const [data, setData] = useState();
 
-  const fetchExcuse = async () => {
-    const DOMAIN = "http://localhost:4000";
-    const response = await fetch(`${DOMAIN}/time`);
+  const UseFetch = async (url) => {
+    const response = await fetch(url);
     const responseJson = await response.json();
 
+    console.log(url);
     console.log(responseJson);
     return responseJson;
   };
 
-  // setState 비동기
-  // useEffect 역할 네가지
-  // cors
+  useEffect(async () => {
+    const list = await UseFetch(`http://localhost:4000/${selected}`);
+    setData(list);
+    console.log("배열", list);
+    const randomExcuse = randomValueExcuseArray(list);
 
-  useEffect(() => {
-    (async () => {
-      const list = await fetchExcuse();
-      setTimeExcuseList(list);
-      const randomExcuse = randomValueExcuseArray(list);
+    console.log("변명출력", randomExcuse);
 
-      console.log(randomExcuse);
-
-      setExcuseText(randomExcuse.body);
-    })();
+    return setExcuseText(randomExcuse.body);
   }, []);
 
   const onClickReselect = () => {
-    const randomExcuse = randomValueExcuseArray(timeExcuseList);
+    const randomExcuse = randomValueExcuseArray(data);
 
+    console.log("다시선택", randomExcuse.body);
     setExcuseText(randomExcuse.body);
   };
 
