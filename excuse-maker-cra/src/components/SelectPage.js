@@ -1,67 +1,105 @@
-import React,{ useState, useEffect, useCallback } from "react";
-import {Link, useParams} from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
 import data from "../db/data.json";
-import { Row, Col} from 'antd';
-import { Button } from 'antd';
-import{RedoOutlined,CopyOutlined,SwapLeftOutlined} from '@ant-design/icons'
+import { Row, Col } from "antd";
+import { Button } from "antd";
+import {
+  RedoOutlined,
+  CopyOutlined,
+  SwapLeftOutlined,
+} from "@ant-design/icons";
 
-function colStyle({span,offset,value}){
-    return(
-        <Col span={span} offset={offset} value={value}>
-            <div style={{display:"flex",flexDirection: "column",alignItems: "center"}}/>
-        </Col>
-    );
+function ColStyle({ span, offset, value, children }) {
+  return (
+    <Col span={span} offset={offset} value={value}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      />
+      {children}
+    </Col>
+  );
 }
 
-function SelectPage(){
-    const {selected} = useParams();
-    console.log(selected);
-    const [excuseText,setExcuseText] = useState();
+function randomValueExcuseArray(list) {
+  const random = Math.floor(Math.random() * 10);
 
-    useEffect(()=>{
-        setExcuseText(randomValueExcuseArray(selected));
-    },[]);
-    
-    function randomValueExcuseArray(selected){
-        const random = Math.floor(Math.random() * 10);
-        
-        return data[selected][random];
+  console.log("랜덤", random);
+  return list[random];
+}
 
-    }
+function SelectPage() {
+  const { selected } = useParams();
+  const [excuseText, setExcuseText] = useState();
+  const [data, setData] = useState();
 
-    const reselect = useCallback(() => {
-        setExcuseText(randomValueExcuseArray(selected));
-    },[excuseText]);
+  const UseFetch = async (url) => {
+    const response = await fetch(url);
+    const responseJson = await response.json();
 
-    function copyToClipBoard(){
-    
-        navigator.clipboard.writeText(excuseText)
-            .then(() => {
-            console.log("Text copied to clipboard...")
-        })
-            .catch(err => {
-            console.log('Something went wrong', err);
-        })
-    }
+    console.log(url);
+    console.log(responseJson);
+    return responseJson;
+  };
 
-    return(
-        <Row justify="center" align="middle" style={{height:700}}>
-            <Col span={16}>
-                <colStyle className="alignCenter" style={{justifyContent:"space-between",height:"200px"}}>
-                    <h1 style={{textAlign:"center"}}>{excuseText}</h1>
-                    <Row type="flex" justify="space-around" style={{width:"70%"}}>
-                    <colStyle value={120} span={8} offset={5}>
-                            <Button type="primary" onClick={reselect}><RedoOutlined />다시 선택</Button>
-                    </colStyle>
-                    <colStyle value={120} span={8}>
-                            <Button type="primary" onClick={copyToClipBoard}><CopyOutlined />변명 확정</Button>
-                    </colStyle>
-                    </Row>
-                    <p style={{paddingTop:"20px"}}><Link to="../category"><SwapLeftOutlined />뒤로가기</Link></p>
-                </colStyle>
-            </Col>
+  useEffect(async () => {
+    const list = await UseFetch(`http://localhost:4000/${selected}`);
+    setData(list);
+    console.log("배열", list);
+    const randomExcuse = randomValueExcuseArray(list);
+
+    console.log("변명출력", randomExcuse);
+
+    return setExcuseText(randomExcuse.body);
+  }, []);
+
+  const onClickReselect = () => {
+    const randomExcuse = randomValueExcuseArray(data);
+
+    console.log("다시선택", randomExcuse.body);
+    setExcuseText(randomExcuse.body);
+  };
+
+  function copyToClipBoard() {
+    navigator.clipboard
+      .writeText(excuseText)
+      .then(() => {
+        console.log("Text copied to clipboard...");
+      })
+      .catch((err) => {
+        console.log("Something went wrong", err);
+      });
+  }
+
+  return (
+    <Row justify="center" align="middle" style={{ height: 700 }}>
+      <ColStyle
+        className="alignCenter"
+        style={{ justifyContent: "space-between", height: "200px" }}
+      >
+        <h1 className="textAlignCenter">{excuseText}</h1>
+        <Row type="flex" className="alignSpaceAround textAlignCenter">
+          <Button type="primary" onClick={onClickReselect}>
+            <RedoOutlined />
+            다시 선택
+          </Button>
+          <Button type="primary" onClick={copyToClipBoard}>
+            <CopyOutlined />
+            변명 확정
+          </Button>
         </Row>
-    );
+        <p className="textAlignCenter" style={{ paddingTop: "30px" }}>
+          <Link to="../category">
+            <SwapLeftOutlined />
+            뒤로가기
+          </Link>
+        </p>
+      </ColStyle>
+    </Row>
+  );
 }
 
 export default SelectPage;
