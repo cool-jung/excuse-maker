@@ -6,6 +6,7 @@ import LandingPage from "./components/LandingPage";
 import NoMatch from "./components/Error";
 import Header from "components/Header";
 import Layout from "components/Layout";
+import Api from "./components/Api";
 
 function App() {
   return (

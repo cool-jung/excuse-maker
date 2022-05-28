@@ -8,6 +8,7 @@ import {
   CopyOutlined,
   SwapLeftOutlined,
 } from "@ant-design/icons";
+import Api from "./Api.js";
 
 function ColStyle({ span, offset, value, children }) {
   return (
@@ -31,33 +32,26 @@ function randomValueExcuseArray(list) {
   return list[random];
 }
 
-const UseFetch = async (url) => {
-  const response = await fetch(url);
-  const responseJson = await response.json();
-
-  console.log(url);
-  console.log(responseJson);
-  return responseJson;
-};
 function SelectPage() {
   const { selected } = useParams();
   const [excuseText, setExcuseText] = useState();
   const [data, setData] = useState();
 
+  useEffect(() => {
+    (async () => {
+      const apiUrl = `http://localhost:4000`;
+      const excuseCategory = (selected) => {
+        return `${apiUrl}/${selected}`;
+      };
+      const list = await Api.get(excuseCategory(selected));
+      setData(list);
+      console.log("배열", list);
+      const randomExcuse = randomValueExcuseArray(list);
 
-  useEffect(async () => {
-    const apiUrl = `http://localhost:4000`;
-    const excuseCategory = (selected) => {
-      return `${apiUrl}/${selected}`;
-    };
-    const list = await UseFetch(excuseCategory(selected));
-    setData(list);
-    console.log("배열", list);
-    const randomExcuse = randomValueExcuseArray(list);
+      console.log("변명출력", randomExcuse);
 
-    console.log("변명출력", randomExcuse);
-
-    return setExcuseText(randomExcuse.body);
+      return setExcuseText(randomExcuse.body);
+    })();
   }, []);
 
   const onClickReselect = () => {
