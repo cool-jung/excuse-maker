@@ -46,7 +46,11 @@ function SelectPage() {
 
 
   useEffect(async () => {
-    const list = await UseFetch(`http://localhost:4000/${selected}`);
+    const apiUrl = `http://localhost:4000`;
+    const excuseCategory = (selected) => {
+      return `${apiUrl}/${selected}`;
+    };
+    const list = await UseFetch(excuseCategory(selected));
     setData(list);
     console.log("배열", list);
     const randomExcuse = randomValueExcuseArray(list);
