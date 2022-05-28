@@ -31,19 +31,19 @@ function randomValueExcuseArray(list) {
   return list[random];
 }
 
+const UseFetch = async (url) => {
+  const response = await fetch(url);
+  const responseJson = await response.json();
+
+  console.log(url);
+  console.log(responseJson);
+  return responseJson;
+};
 function SelectPage() {
   const { selected } = useParams();
   const [excuseText, setExcuseText] = useState();
   const [data, setData] = useState();
 
-  const UseFetch = async (url) => {
-    const response = await fetch(url);
-    const responseJson = await response.json();
-
-    console.log(url);
-    console.log(responseJson);
-    return responseJson;
-  };
 
   useEffect(async () => {
     const list = await UseFetch(`http://localhost:4000/${selected}`);
