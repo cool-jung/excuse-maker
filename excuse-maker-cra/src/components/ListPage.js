@@ -18,19 +18,30 @@ function ColStyle({ span, offset, value, children }) {
   );
 }
 
-function totalValueExcuseArray(list) {
-  list.forEach((element, index) => {
-    console.log(list[index]);
-    return list[index];
-  });
+function ExcuseList({ excuseText }) {
+  return (
+    <ul>
+      <li>{excuseText}</li>
+    </ul>
+  );
 }
+
+function totalValueExcuseArray(list) {
+  const totalList = list.map((element, index) => {
+    console.log(list[index]);
+    return index;
+  });
+  console.log("토탈", [totalList]);
+  return list[totalList];
+}
+// console.log(totalValueExcuseArray());
 
 function ListPage() {
   const { selected } = useParams();
   console.log("url", selected);
   const [excuseText, setExcuseText] = useState();
-  const [data, setData] = useState();
 
+  // const [data, setData] = useState([]);
   useEffect(() => {
     (async () => {
       const apiUrl = `http://localhost:4000`;
@@ -38,14 +49,17 @@ function ListPage() {
         return `${apiUrl}/${selected}`;
       };
       const list = await Api.get(excuseCategory(selected));
+      console.log("리스트", list);
 
-      setData(list);
+      // const randomExcuse = totalValueExcuseArray(list);
+      const randomExcuse = list;
       console.log("배열", list);
-      const randomExcuse = totalValueExcuseArray(list);
 
       console.log("변명출력", randomExcuse);
 
-      return setExcuseText(randomExcuse.body);
+      return setExcuseText(randomExcuse[0].body);
+
+      // return setExcuseText(list);
     })();
   }, []);
 
@@ -55,6 +69,9 @@ function ListPage() {
         className="alignCenter"
         style={{ justifyContent: "space-between", height: "200px" }}
       >
+        {/* {list.map((excuse) => (
+          <ExcuseList excuse={excuse} className="textAlignCenter" />
+        ))} */}
         {excuseText}
       </ColStyle>
     </Row>
