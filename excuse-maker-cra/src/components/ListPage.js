@@ -18,23 +18,9 @@ function ColStyle({ span, offset, value, children }) {
   );
 }
 
-function ExcuseList({ excuseText }) {
-  return (
-    <ul>
-      <li>{excuseText}</li>
-    </ul>
-  );
+function ExcuseList(totalExcuseList) {
+  return <ul>{totalExcuseList}</ul>;
 }
-
-function totalValueExcuseArray(list) {
-  const totalList = list.map((element, index) => {
-    console.log(list[index]);
-    return index;
-  });
-  console.log("토탈", [totalList]);
-  return list[totalList];
-}
-// console.log(totalValueExcuseArray());
 
 function ListPage() {
   const { selected } = useParams();
@@ -51,15 +37,18 @@ function ListPage() {
       const list = await Api.get(excuseCategory(selected));
       console.log("리스트", list);
 
-      // const randomExcuse = totalValueExcuseArray(list);
-      const randomExcuse = list;
+      const totalExcuse = list;
       console.log("배열", list);
 
-      console.log("변명출력", randomExcuse);
+      console.log("변명출력", totalExcuse);
+      const totalExcuseList = totalExcuse.map((value) => <li>{value.body}</li>);
 
-      return setExcuseText(randomExcuse[0].body);
+      console.log(totalExcuseList);
+      const test = ExcuseList(totalExcuseList);
 
-      // return setExcuseText(list);
+      console.log(test);
+
+      return setExcuseText(test);
     })();
   }, []);
 
@@ -69,9 +58,6 @@ function ListPage() {
         className="alignCenter"
         style={{ justifyContent: "space-between", height: "200px" }}
       >
-        {/* {list.map((excuse) => (
-          <ExcuseList excuse={excuse} className="textAlignCenter" />
-        ))} */}
         {excuseText}
       </ColStyle>
     </Row>
