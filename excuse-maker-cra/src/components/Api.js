@@ -1,3 +1,4 @@
+import CreateSentence from "./CreateSentence";
 const Api = {
   get: async (url) => {
     const response = await fetch(url);
@@ -7,15 +8,15 @@ const Api = {
     console.log(responseJson);
     return responseJson;
   },
-  post: async (url, body) => {
+  post: async (url, excuseData) => {
     const response = await fetch(url, {
       method: "post",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        name: "bonbon",
-        batch: 1,
+        id: 11,
+        body: excuseData,
       }),
     });
     const responseJson = await response.json();
