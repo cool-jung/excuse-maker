@@ -25,42 +25,50 @@ function ExcuseList(totalExcuseList) {
 function ListPage() {
   const { selected } = useParams();
   console.log("url", selected);
-  const [excuseText, setExcuseText] = useState();
+  const [timeText, setTimeText] = useState();
+  const [scheduleText, setScheduleText] = useState();
 
-  // const [data, setData] = useState([]);
   useEffect(() => {
     (async () => {
       const apiUrl = `http://localhost:4000`;
-      const excuseCategory = (selected) => {
-        return `${apiUrl}/${selected}`;
-      };
-      const list = await Api.get(excuseCategory(selected));
-      console.log("리스트", list);
+      const excuseTime = `${apiUrl}/time`;
+      const excuseSchedule = `${apiUrl}/schedule`;
 
-      const totalExcuse = list;
-      console.log("배열", list);
+      const timeList = await Api.get(excuseTime);
+      const scheduleList = await Api.get(excuseSchedule);
 
-      console.log("변명출력", totalExcuse);
-      const totalExcuseList = totalExcuse.map((value) => <li>{value.body}</li>);
+      const totalTimeList = timeList.map((value) => <li>{value.body}</li>);
+      const totalScheduleList = scheduleList.map((value) => (
+        <li>{value.body}</li>
+      ));
 
-      console.log(totalExcuseList);
-      const test = ExcuseList(totalExcuseList);
+      const timeExcuseList = ExcuseList(totalTimeList);
+      const scheduleExcuseList = ExcuseList(totalScheduleList);
 
-      console.log(test);
-
-      return setExcuseText(test);
+      return setTimeText(timeExcuseList), setScheduleText(scheduleExcuseList);
     })();
   }, []);
 
   return (
-    <Row justify="center" align="middle" style={{ height: 700 }}>
-      <ColStyle
-        className="alignCenter"
-        style={{ justifyContent: "space-between", height: "200px" }}
-      >
-        {excuseText}
+    <div>
+      <ColStyle className="alignCenter" style={{ height: "100px" }}>
+        <CreateSentence />
+        <Row
+          className="alignSpaceAround"
+          align="middle"
+          style={{ width: "50%", margin: "0 auto" }}
+        >
+          <ColStyle>
+            <h1>시간</h1>
+            {timeText}
+          </ColStyle>
+          <ColStyle>
+            <h1>일정</h1>
+            {scheduleText}
+          </ColStyle>
+        </Row>
       </ColStyle>
-    </Row>
+    </div>
   );
 }
 
