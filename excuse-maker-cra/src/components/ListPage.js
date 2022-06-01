@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Api from "./Api.js";
 import { Row, Col } from "antd";
+import CreateSentence from "./CreateSentence.js";
 
 function ColStyle({ span, offset, value, children }) {
   return (
