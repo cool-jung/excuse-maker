@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import Api from "./Api.js";
 import { Row, Col } from "antd";
@@ -29,12 +29,6 @@ function ListPage() {
   const [timeText, setTimeText] = useState();
   const [scheduleText, setScheduleText] = useState();
 
-  function lastExcuseArray(list) {
-    const last = timeText.length;
-    console.log("라스트", last);
-    return list[last];
-  }
-
   // 변명리스트
   useEffect(() => {
     (async () => {
@@ -61,44 +55,32 @@ function ListPage() {
 
   // 변명생성
 
-  const nextId = useRef(11);
-
+  function lastExcuseArray(list) {
+    const last = timeText.length;
+    console.log("라스트", last);
+    return list[last];
+  }
   const [excuseData, setExcuseData] = useState();
   const onChange = (e) => {
     return setExcuseData(e.target.value), setExcuseData(e.target.value);
   };
 
-  const onCreate = (body) => {
-    const excuse = {
-      id: nextId.current,
-      body,
+  const onCreate = async () => {
+    const apiUrl = `http://localhost:4000`;
+    const excuseCategory = (selected) => {
+      return `${apiUrl}/${selected}`;
     };
-    return setTimeText(timeText.concat(excuse));
+    const list = await Api.post(excuseCategory(selected), excuseData);
+    console.log(list);
+    const lastExcuse = lastExcuseArray(list);
+
+    return excuseData(lastExcuse.body);
   };
-
-  useEffect(() => {
-    (async () => {
-      const apiUrl = `http://localhost:4000`;
-      const excuseCategory = (selected) => {
-        return `${apiUrl}/${selected}`;
-      };
-      const list = await Api.post(excuseCategory(selected));
-      const lastExcuse = lastExcuseArray(list);
-      console.log(lastExcuse.body);
-
-      return onCreate(lastExcuse.body);
-    })();
-  }, []);
 
   return (
     <div>
       <ColStyle className="alignCenter" style={{ height: "100px" }}>
-        <CreateSentence
-          onChange={onChange}
-          // onSubmit={onSubmit}
-          // body={body}
-          onCreate={onCreate}
-        />
+        <CreateSentence onChange={onChange} onCreate={onCreate} />
         <Row
           className="alignSpaceAround"
           align="middle"

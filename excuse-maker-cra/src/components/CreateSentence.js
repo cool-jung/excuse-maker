@@ -1,10 +1,7 @@
-import React, { useState, useEffect, useRef } from "react";
-import { useParams } from "react-router-dom";
-import Api from "./Api.js";
 import { Button, Form, Select, Input } from "antd";
 const { Option } = Select;
 
-function CreateSentence({ onCreate, onChange, value, inputRef }) {
+function CreateSentence({ onCreate, onChange, value }) {
   return (
     <Form
       className="alignSpaceAround"
