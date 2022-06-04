@@ -55,26 +55,37 @@ function ListPage() {
 
   // 변명생성
 
-  function lastExcuseArray(list) {
-    const last = timeText.length;
-    console.log("라스트", last);
-    return list[last];
-  }
-  const [excuseData, setExcuseData] = useState();
+  const [input, setInput] = useState("");
+
   const onChange = (e) => {
-    return setExcuseData(e.target.value), setExcuseData(e.target.value);
+    console.log("인풋상태", input);
+    return setInput(e.target.value);
   };
+
+  const [excuseData, setExcuseData] = useState();
 
   const onCreate = async () => {
     const apiUrl = `http://localhost:4000`;
     const excuseCategory = (selected) => {
       return `${apiUrl}/${selected}`;
     };
-    const list = await Api.post(excuseCategory(selected), excuseData);
-    console.log(list);
-    const lastExcuse = lastExcuseArray(list);
+    const getlist = await Api.get(excuseCategory(selected));
+    const nextId = getlist.length;
+    // setExcuseData(getlist);
+    console.log("기존 api리스트", getlist);
 
-    return excuseData(lastExcuse.body);
+    const newExcuse = {
+      id: nextId.current,
+      body: input,
+    };
+
+    const list = await Api.post(excuseCategory(selected), newExcuse);
+    // nextId.current += 1;
+
+    console.log("새로받아온 post", list);
+    console.log([...getlist], list);
+
+    return setExcuseData([...getlist], list.body);
   };
 
   return (
