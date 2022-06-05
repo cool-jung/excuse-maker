@@ -1,7 +1,14 @@
+import React, { useState } from "react";
 import { Button, Form, Select, Input } from "antd";
 const { Option } = Select;
 
-function CreateSentence({ onCreate, onChange, value }) {
+function CreateSentence({ onCreate, onChange, input }) {
+  const [optionSelected, setOptionSelected] = useState();
+
+  const handleChange = (value) => {
+    setOptionSelected(value);
+  };
+
   return (
     <Form
       className="alignSpaceAround"
@@ -13,6 +20,7 @@ function CreateSentence({ onCreate, onChange, value }) {
       }}
     >
       <Select
+        onChange={handleChange}
         defaultValue="시간"
         style={{
           width: 120,
@@ -24,9 +32,13 @@ function CreateSentence({ onCreate, onChange, value }) {
       <Input
         placeholder="새로운 변명을 입력하세요"
         onChange={onChange}
-        value={value}
+        value={input}
       />
-      <Button type="primary" htmlType="submit" onClick={onCreate}>
+      <Button
+        type="primary"
+        htmlType="submit"
+        onClick={onCreate.bind(this, optionSelected)}
+      >
         생성
       </Button>
     </Form>

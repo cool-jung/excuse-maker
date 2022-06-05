@@ -19,37 +19,36 @@ function ColStyle({ span, offset, value, children }) {
   );
 }
 
-function ExcuseList(totalExcuseList) {
-  return <ul>{totalExcuseList}</ul>;
+function LiRender({ list }) {
+  return (
+    <ul>
+      {list.map((value, index) => (
+        <li key={list[index].id}>{value.body}</li>
+      ))}
+    </ul>
+  );
 }
 
 function ListPage() {
   const { selected } = useParams();
   console.log("url", selected);
-  const [timeText, setTimeText] = useState();
-  const [scheduleText, setScheduleText] = useState();
+  const [timeExcuseList, setTimeExcuseList] = useState([]);
+  const [scheduleText, setScheduleText] = useState([]);
+  const TIME = "time";
+  const SCHEDULE = "schedule";
 
   // 변명리스트
   useEffect(() => {
     (async () => {
       const apiUrl = `http://localhost:4000`;
-      const excuseTime = `${apiUrl}/time`;
-      const excuseSchedule = `${apiUrl}/schedule`;
+      const excuseTime = `${apiUrl}/${TIME}`;
+      const excuseSchedule = `${apiUrl}/${SCHEDULE}`;
 
       const timeList = await Api.get(excuseTime);
       const scheduleList = await Api.get(excuseSchedule);
 
-      const totalTimeList = timeList.map((value, index) => (
-        <li key={timeList[index].id}>{value.body}</li>
-      ));
-      const totalScheduleList = scheduleList.map((value, index) => (
-        <li key={scheduleList[index].id}>{value.body}</li>
-      ));
-
-      const timeExcuseList = ExcuseList(totalTimeList);
-      const scheduleExcuseList = ExcuseList(totalScheduleList);
-
-      return setTimeText(timeExcuseList), setScheduleText(scheduleExcuseList);
+      setTimeExcuseList(timeList);
+      setScheduleText(scheduleList);
     })();
   }, []);
 
@@ -62,30 +61,15 @@ function ListPage() {
     return setInput(e.target.value);
   };
 
-  const [excuseData, setExcuseData] = useState();
-
-  const onCreate = async () => {
-    const apiUrl = `http://localhost:4000`;
-    const excuseCategory = (selected) => {
-      return `${apiUrl}/${selected}`;
-    };
-    const getlist = await Api.get(excuseCategory(selected));
-    const nextId = getlist.length;
-    // setExcuseData(getlist);
-    console.log("기존 api리스트", getlist);
-
-    const newExcuse = {
-      id: nextId.current,
-      body: input,
-    };
-
-    const list = await Api.post(excuseCategory(selected), newExcuse);
-    // nextId.current += 1;
-
-    console.log("새로받아온 post", list);
-    console.log([...getlist], list);
-
-    return setExcuseData([...getlist], list.body);
+  const onCreate = async (optionSelected = "time") => {
+    const newList = await Api.post(optionSelected, { body: input });
+    console.log("셀렉트", optionSelected);
+    if (TIME === optionSelected) {
+      setTimeExcuseList(newList);
+    } else {
+      setScheduleText(newList);
+    }
+    console.log(newList);
   };
 
   return (
@@ -99,13 +83,11 @@ function ListPage() {
         >
           <ColStyle>
             <h1>시간</h1>
-            {timeText}
-            {excuseData}
+            <LiRender list={timeExcuseList} />
           </ColStyle>
           <ColStyle>
             <h1>일정</h1>
-            {scheduleText}
-            {excuseData}
+            <LiRender list={scheduleText} />
           </ColStyle>
         </Row>
       </ColStyle>

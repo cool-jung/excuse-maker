@@ -8,14 +8,14 @@ const Api = {
     console.log(responseJson);
     return responseJson;
   },
-  post: async (url, excuseData) => {
+  post: async (url, data) => {
     const response = await fetch(url, {
       method: "post",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        body: excuseData,
+        body: data.body,
       }),
     });
     const responseJson = await response.json();
