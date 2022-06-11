@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Api from "./Api.js";
 import { Row, Col } from "antd";
 import CreateSentence from "./CreateSentence.js";
+import { Divider, List, Button } from "antd";
 
 function ColStyle({ span, offset, value, children }) {
   return (
@@ -19,11 +20,24 @@ function ColStyle({ span, offset, value, children }) {
   );
 }
 
-function LiRender({ list }) {
+function LiRender({ list, onEdit, name }) {
   return (
-    <ul>
+    <ul style={{ width: "500px" }}>
       {list.map((value, index) => (
-        <li key={list[index].id}>{value.body}</li>
+        <List
+          key={list[index].id}
+          size="large"
+          // bordered
+          style={{ marginBottom: "20px", paddingBottom: "9px" }}
+        >
+          <span>{value.body}</span>
+          <Button
+            onClick={() => onEdit(list[index].id, name)}
+            style={{ float: "right" }}
+          >
+            수정
+          </Button>
+        </List>
       ))}
     </ul>
   );
@@ -72,6 +86,22 @@ function ListPage() {
     console.log(newList);
   };
 
+  //변명 수정
+  const onEdit = async (id, optionSelected = "time") => {
+    const editVal = prompt("수정할 변명을 입력해주세요.", "");
+    await Api.put(`http://localhost:4000/${optionSelected}/${id}`, {
+      body: editVal,
+    });
+    const apiUrl = `http://localhost:4000`;
+    const excuseTime = `${apiUrl}/${TIME}`;
+    const excuseSchedule = `${apiUrl}/${SCHEDULE}`;
+
+    const timeList = await Api.get(excuseTime);
+    const scheduleList = await Api.get(excuseSchedule);
+
+    setTimeExcuseList(timeList);
+    setScheduleText(scheduleList);
+  };
   return (
     <div>
       <ColStyle className="alignCenter" style={{ height: "100px" }}>
@@ -82,12 +112,17 @@ function ListPage() {
           style={{ width: "50%", margin: "0 auto" }}
         >
           <ColStyle>
-            <h1>시간</h1>
-            <LiRender list={timeExcuseList} />
+            <Divider orientation="left">시간</Divider>
+            <LiRender
+              list={timeExcuseList}
+              onEdit={onEdit}
+              style={{ width: "500px" }}
+              name="time"
+            />
           </ColStyle>
           <ColStyle>
-            <h1>일정</h1>
-            <LiRender list={scheduleText} />
+            <Divider orientation="left">일정</Divider>
+            <LiRender list={scheduleText} onEdit={onEdit} name="schedule" />
           </ColStyle>
         </Row>
       </ColStyle>

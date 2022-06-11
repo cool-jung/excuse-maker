@@ -24,6 +24,22 @@ const Api = {
     console.log(responseJson);
     return responseJson;
   },
+  put: async (url, data) => {
+    const response = await fetch(url, {
+      method: "put",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        body: data.body,
+      }),
+    });
+    const responseJson = await response.json();
+
+    console.log(url);
+    console.log(responseJson);
+    return responseJson;
+  },
 };
 
 export default Api;
