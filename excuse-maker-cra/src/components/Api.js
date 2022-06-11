@@ -40,6 +40,13 @@ const Api = {
     console.log(responseJson);
     return responseJson;
   },
+  delete: async (url) => {
+    const response = await fetch(url, {
+      method: "delete",
+    });
+    const responseJson = await response.json();
+    return responseJson;
+  },
 };
 
 export default Api;

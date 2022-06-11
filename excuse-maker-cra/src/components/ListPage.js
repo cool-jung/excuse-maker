@@ -20,7 +20,7 @@ function ColStyle({ span, offset, value, children }) {
   );
 }
 
-function LiRender({ list, onEdit, name }) {
+function LiRender({ list, onRemove, onEdit, name }) {
   return (
     <ul style={{ width: "500px" }}>
       {list.map((value, index) => (
@@ -31,9 +31,18 @@ function LiRender({ list, onEdit, name }) {
           style={{ marginBottom: "20px", paddingBottom: "9px" }}
         >
           <span>{value.body}</span>
+
+          <Button
+            onClick={() => onRemove(list[index].id, name)}
+            type="primary"
+            danger
+            style={{ float: "right" }}
+          >
+            삭제
+          </Button>
           <Button
             onClick={() => onEdit(list[index].id, name)}
-            style={{ float: "right" }}
+            style={{ float: "right", marginRight: "10px" }}
           >
             수정
           </Button>
@@ -102,6 +111,29 @@ function ListPage() {
     setTimeExcuseList(timeList);
     setScheduleText(scheduleList);
   };
+
+  // 시간 변명 삭제
+  const onRemoveTime = async (id, name) => {
+    if (window.confirm("삭제하시겠습니까?")) {
+      await Api.delete(`http://localhost:4000/time/${id}`);
+      const apiUrl = `http://localhost:4000`;
+      const excuseTime = `${apiUrl}/${TIME}`;
+      const timeList = await Api.get(excuseTime);
+      setTimeExcuseList(timeList);
+    }
+  };
+
+  // 일정 변명 삭제
+  const onRemoveSchedule = async (id, name) => {
+    if (window.confirm("삭제하시겠습니까?")) {
+      await Api.delete(`http://localhost:4000/schedule/${id}`);
+      const apiUrl = `http://localhost:4000`;
+      const excuseSchedule = `${apiUrl}/${SCHEDULE}`;
+      const scheduleList = await Api.get(excuseSchedule);
+      setScheduleText(scheduleList);
+    }
+  };
+
   return (
     <div>
       <ColStyle className="alignCenter" style={{ height: "100px" }}>
@@ -115,6 +147,7 @@ function ListPage() {
             <Divider orientation="left">시간</Divider>
             <LiRender
               list={timeExcuseList}
+              onRemove={onRemoveTime}
               onEdit={onEdit}
               style={{ width: "500px" }}
               name="time"
@@ -122,7 +155,12 @@ function ListPage() {
           </ColStyle>
           <ColStyle>
             <Divider orientation="left">일정</Divider>
-            <LiRender list={scheduleText} onEdit={onEdit} name="schedule" />
+            <LiRender
+              list={scheduleText}
+              onRemove={onRemoveSchedule}
+              onEdit={onEdit}
+              name="schedule"
+            />
           </ColStyle>
         </Row>
       </ColStyle>
