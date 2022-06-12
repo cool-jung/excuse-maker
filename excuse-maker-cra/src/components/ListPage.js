@@ -85,8 +85,10 @@ function ListPage() {
   };
 
   const onCreate = async (optionSelected = "time") => {
+    if (input.length < 5) {
+      return;
+    }
     const newList = await Api.post(optionSelected, { body: input });
-    console.log("셀렉트", optionSelected);
     if (TIME === optionSelected) {
       setTimeExcuseList(newList);
     } else {
