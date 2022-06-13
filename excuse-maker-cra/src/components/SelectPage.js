@@ -97,7 +97,7 @@ function SelectPage() {
         </p>
         <Col className="alignCenter">
           <Button>
-            <Link to="./excuselist">변명 리스트 보러가기</Link>
+            <Link to="/excuselist">변명 리스트 보러가기</Link>
           </Button>
         </Col>
       </ColStyle>
