@@ -78,10 +78,15 @@ function ListPage() {
   // 변명생성
 
   const [input, setInput] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const onChange = (e) => {
-    console.log("인풋상태", input);
-    return setInput(e.target.value);
+    const inputVal = e.target.value;
+    setErrorMessage("");
+    if (inputVal.length < 5 || inputVal === "") {
+      setErrorMessage("5글자 이상 입력해야 합니다.");
+    }
+    return setInput(inputVal);
   };
 
   const onCreate = async (optionSelected = "time") => {
@@ -139,7 +144,11 @@ function ListPage() {
   return (
     <div>
       <ColStyle className="alignCenter" style={{ height: "100px" }}>
-        <CreateSentence onChange={onChange} onCreate={onCreate} />
+        <CreateSentence
+          onChange={onChange}
+          onCreate={onCreate}
+          errorMessage={errorMessage}
+        />
         <Row
           className="alignSpaceAround"
           align="middle"
