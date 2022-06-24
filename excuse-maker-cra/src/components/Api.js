@@ -1,4 +1,4 @@
-import CreateSentence from "./CreateSentence";
+import SentenceAddForm from "./SentenceAddForm";
 const Api = {
   get: async (url) => {
     const response = await fetch(url);
