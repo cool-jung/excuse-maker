@@ -23,7 +23,6 @@ function ColStyle({ span, offset, value, children }) {
 function LiRender({ name }) {
   const { excuseList, setExcuseList } = useExcuseList();
   const apiUrl = `http://localhost:4000`;
-  console.log(typeof name);
 
   // 변명리스트
   useEffect(() => {
@@ -31,10 +30,14 @@ function LiRender({ name }) {
       const excuseSelected = `${apiUrl}/${name}`;
       console.log(excuseSelected);
       const excuseTotalList = await Api.get(excuseSelected);
-      setExcuseList(excuseTotalList);
+      console.log(excuseList);
+      console.log(excuseTotalList);
+      setExcuseList((prev) => {
+        return { ...prev, [name]: excuseTotalList };
+      });
     })();
   }, []);
-
+  console.log("네임", name);
   //변명 수정
   const onEdit = async (id, name) => {
     const editVal = prompt("수정할 변명을 입력해주세요.", "");
@@ -44,7 +47,10 @@ function LiRender({ name }) {
     const excuseSelected = `${apiUrl}/${name}`;
     const excuseTotalList = await Api.get(excuseSelected);
 
-    setExcuseList(excuseTotalList);
+    setExcuseList({
+      ...excuseList,
+      [name]: excuseTotalList,
+    });
 
     console.log(excuseList);
   };
@@ -56,19 +62,26 @@ function LiRender({ name }) {
       const excuseSelected = `${apiUrl}/${name}`;
       const excuseTotalList = await Api.get(excuseSelected);
 
-      setExcuseList(excuseTotalList);
+      setExcuseList({
+        ...excuseList,
+        [name]: excuseTotalList,
+      });
     }
   };
 
   console.log("테스트", excuseList);
   return (
     <ul style={{ width: "500px" }}>
-      {excuseList.map((value, index) => (
+      {excuseList[name]?.map((value, index) => (
         <ListItem
           value={value.body}
-          key={excuseList[index].id}
-          onRemove={() => onRemove(excuseList[index].id, name)}
-          onEdit={() => onEdit(excuseList[index].id, name)}
+          key={index}
+          onRemove={() => {
+            console.log(value);
+
+            onRemove(value.id, name);
+          }}
+          onEdit={() => onEdit(value.id, name)}
         ></ListItem>
       ))}
     </ul>

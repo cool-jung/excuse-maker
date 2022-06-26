@@ -30,22 +30,15 @@ function SentenceAddForm({ list }) {
     if (input.length < 5) {
       return;
     }
-    const newList = await Api.post(name, { body: input });
-    if ("time" === name) {
-      console.log(newList);
-      // setTimeExcuseList(newList);
-    } else {
-      console.log(newList);
-      // setScheduleText(newList);
-    }
-    console.log(errorMessage);
-    console.log("셀렉트", name);
-    console.log(newList);
+    await Api.post(name, { body: input });
 
     const apiUrl = `http://localhost:4000`;
     const excuseSelected = `${apiUrl}/${name}`;
     list = await Api.get(excuseSelected);
-    setExcuseList(list);
+    setExcuseList({
+      ...excuseList,
+      [name]: list,
+    });
   };
 
   return (
