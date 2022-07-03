@@ -6,7 +6,7 @@ const { Option } = Select;
 
 function SentenceAddForm({ list }) {
   const { excuseList, setExcuseList } = useExcuseList();
-  const [optionSelected, setOptionSelected] = useState();
+  const [optionSelected, setOptionSelected] = useState(`time`);
 
   const handleChange = (value) => {
     setOptionSelected(value);
@@ -26,7 +26,7 @@ function SentenceAddForm({ list }) {
     return setInput(inputVal);
   };
 
-  const onCreate = async (name = "time") => {
+  const onCreate = async (name) => {
     if (input.length < 5) {
       return;
     }
@@ -70,7 +70,9 @@ function SentenceAddForm({ list }) {
         <Button
           type="primary"
           htmlType="submit"
-          onClick={onCreate.bind(this, optionSelected)}
+          onClick={() => {
+            onCreate(optionSelected);
+          }}
         >
           생성
         </Button>
