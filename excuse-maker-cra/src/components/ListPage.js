@@ -58,9 +58,15 @@ function LiRender({ name }) {
   //변명 삭제
   const onRemove = async (id, name) => {
     if (window.confirm("삭제하시겠습니까?")) {
-      await Api.delete(`${apiUrl}/${name}/${id}`);
-      const excuseSelected = `${apiUrl}/${name}`;
-      const excuseTotalList = await Api.get(excuseSelected);
+      try {
+        await Api.delete(URL_DETAIL(id, name));
+      } catch (err) {
+        console.log(err);
+        alert("에러가 발생했습니다 " + err.statusText);
+        return;
+      }
+
+      const excuseTotalList = await Api.get(URL_SELECTED(name));
 
       setExcuseList({
         ...excuseList,

@@ -43,6 +43,12 @@ const Api = {
   delete: async (url) => {
     const response = await fetch(url, {
       method: "delete",
+    }).then((res) => {
+      console.log(res);
+      if (!res.ok) {
+        return Promise.reject(res);
+      }
+      return res;
     });
     const responseJson = await response.json();
     return responseJson;
