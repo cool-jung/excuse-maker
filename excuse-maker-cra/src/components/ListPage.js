@@ -23,13 +23,14 @@ function ColStyle({ span, offset, value, children }) {
 function LiRender({ name }) {
   const { excuseList, setExcuseList } = useExcuseList();
   const apiUrl = `http://localhost:4000`;
+  const URL_SELECTED = (name) => `${apiUrl}/${name}`;
+  const URL_DETAIL = (id, name) => `${apiUrl}/${name}/${id}`;
 
   // 변명리스트
   useEffect(() => {
     (async () => {
-      const excuseSelected = `${apiUrl}/${name}`;
-      console.log(excuseSelected);
-      const excuseTotalList = await Api.get(excuseSelected);
+      console.log(URL_SELECTED(name));
+      const excuseTotalList = await Api.get(URL_SELECTED(name));
       console.log(excuseList);
       console.log(excuseTotalList);
       setExcuseList((prev) => {
@@ -41,11 +42,10 @@ function LiRender({ name }) {
   //변명 수정
   const onEdit = async (id, name) => {
     const editVal = prompt("수정할 변명을 입력해주세요.", "");
-    await Api.put(`${apiUrl}/${name}/${id}`, {
+    await Api.put(URL_DETAIL(id, name), {
       body: editVal,
     });
-    const excuseSelected = `${apiUrl}/${name}`;
-    const excuseTotalList = await Api.get(excuseSelected);
+    const excuseTotalList = await Api.get(URL_SELECTED(name));
 
     setExcuseList({
       ...excuseList,
