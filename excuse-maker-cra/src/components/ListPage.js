@@ -4,6 +4,7 @@ import { Row, Col } from "antd";
 import SentenceAddForm from "./SentenceAddForm.js";
 import { Divider, Button } from "antd";
 import { ExcuseListContext, useExcuseList } from "../context/listContext";
+import axios from "axios";
 
 function ColStyle({ span, offset, value, children }) {
   return (
@@ -21,6 +22,22 @@ function ColStyle({ span, offset, value, children }) {
 }
 
 function LiRender({ name }) {
+  const axiosInstance = axios.create({
+    baseURL: "http://localhost:4000/",
+  });
+
+  axiosInstance.interceptors.request.use(
+    function (config) {
+      // config.headers["Content-Type"] = "application/json; charset=utf-8";
+      // config.headers["Authorization"] = "";
+      return config;
+    },
+    function (error) {
+      console.log(error);
+      return Promise.reject(error);
+    }
+  );
+
   const { excuseList, setExcuseList } = useExcuseList();
   const apiUrl = `http://localhost:4000`;
   const URL_SELECTED = (name) => `${apiUrl}/${name}`;
@@ -30,11 +47,11 @@ function LiRender({ name }) {
   useEffect(() => {
     (async () => {
       console.log(URL_SELECTED(name));
-      const excuseTotalList = await Api.get(URL_SELECTED(name));
+      const excuseTotalList = await axiosInstance.get(`${name}/`);
       console.log(excuseList);
       console.log(excuseTotalList);
       setExcuseList((prev) => {
-        return { ...prev, [name]: excuseTotalList };
+        return { ...prev, [name]: excuseTotalList.data };
       });
     })();
   }, []);

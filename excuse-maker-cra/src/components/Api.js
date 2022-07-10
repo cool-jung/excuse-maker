@@ -1,7 +1,8 @@
 import SentenceAddForm from "./SentenceAddForm";
+import axios from "axios";
 const Api = {
   get: async (url) => {
-    const response = await fetch(url);
+    const response = await axios(url);
     const responseJson = await response.json();
 
     console.log(url);
@@ -9,14 +10,14 @@ const Api = {
     return responseJson;
   },
   post: async (url, data) => {
-    const response = await fetch(url, {
+    const response = await axios(url, {
       method: "post",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
+      data: {
         body: data.body,
-      }),
+      },
     });
     const responseJson = await response.json();
 
