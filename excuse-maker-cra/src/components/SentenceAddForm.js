@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Api from "./Api.js";
+import Api from "./Api";
 import { Button, Form, Select, Input } from "antd";
 import { useExcuseList } from "../context/listContext";
 const { Option } = Select;
@@ -30,11 +30,9 @@ function SentenceAddForm({ list }) {
     if (input.length < 5) {
       return;
     }
-    await Api.post(name, { body: input });
+    await Api.postItem(name, { body: input });
 
-    const apiUrl = `http://localhost:4000`;
-    const excuseSelected = `${apiUrl}/${name}`;
-    list = await Api.get(excuseSelected);
+    list = await Api.getList(name);
     setExcuseList({
       ...excuseList,
       [name]: list,

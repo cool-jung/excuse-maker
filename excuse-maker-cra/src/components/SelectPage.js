@@ -8,7 +8,7 @@ import {
   CopyOutlined,
   SwapLeftOutlined,
 } from "@ant-design/icons";
-import Api from "./Api.js";
+import Api from "./Api";
 
 function ColStyle({ span, offset, value, children }) {
   return (
@@ -43,7 +43,7 @@ function SelectPage() {
       const excuseCategory = (selected) => {
         return `${apiUrl}/${selected}`;
       };
-      const list = await Api.get(excuseCategory(selected));
+      const list = await Api.getList(selected);
       setData(list);
       console.log("배열", list);
       const randomExcuse = randomValueExcuseArray(list);

@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useContext } from "react";
-import Api from "./Api.js";
+import React, { useEffect } from "react";
+import Api from "./Api";
 import { Row, Col } from "antd";
 import SentenceAddForm from "./SentenceAddForm.js";
 import { Divider, Button } from "antd";
-import { ExcuseListContext, useExcuseList } from "../context/listContext";
-import axios from "axios";
+import { useExcuseList } from "../context/listContext";
 
 function ColStyle({ span, offset, value, children }) {
   return (
@@ -22,68 +21,43 @@ function ColStyle({ span, offset, value, children }) {
 }
 
 function LiRender({ name }) {
-  const axiosInstance = axios.create({
-    baseURL: "http://localhost:4000/",
-  });
-
-  axiosInstance.interceptors.request.use(
-    function (config) {
-      // config.headers["Content-Type"] = "application/json; charset=utf-8";
-      // config.headers["Authorization"] = "";
-      return config;
-    },
-    function (error) {
-      console.log(error);
-      return Promise.reject(error);
-    }
-  );
-
   const { excuseList, setExcuseList } = useExcuseList();
-  const apiUrl = `http://localhost:4000`;
-  const URL_SELECTED = (name) => `${apiUrl}/${name}`;
-  const URL_DETAIL = (id, name) => `${apiUrl}/${name}/${id}`;
 
   // 변명리스트
   useEffect(() => {
     (async () => {
-      console.log(URL_SELECTED(name));
-      const excuseTotalList = await axiosInstance.get(`${name}/`);
-      console.log(excuseList);
-      console.log(excuseTotalList);
+      const excuseTotalList = await Api.getList(name);
       setExcuseList((prev) => {
-        return { ...prev, [name]: excuseTotalList.data };
+        return { ...prev, [name]: excuseTotalList };
       });
     })();
   }, []);
-  console.log("네임", name);
   //변명 수정
   const onEdit = async (id, name) => {
     const editVal = prompt("수정할 변명을 입력해주세요.", "");
-    await Api.put(URL_DETAIL(id, name), {
+    await Api.putItem(name, id, {
       body: editVal,
     });
-    const excuseTotalList = await Api.get(URL_SELECTED(name));
+    const excuseTotalList = await Api.getList(name);
 
     setExcuseList({
       ...excuseList,
       [name]: excuseTotalList,
     });
-
-    console.log(excuseList);
   };
 
   //변명 삭제
   const onRemove = async (id, name) => {
     if (window.confirm("삭제하시겠습니까?")) {
       try {
-        await Api.delete(URL_DETAIL(id, name));
+        await Api.deleteItem(name, id);
       } catch (err) {
         console.log(err);
         alert("에러가 발생했습니다 " + err.statusText);
         return;
       }
 
-      const excuseTotalList = await Api.get(URL_SELECTED(name));
+      const excuseTotalList = await Api.getList(name);
 
       setExcuseList({
         ...excuseList,
@@ -92,7 +66,6 @@ function LiRender({ name }) {
     }
   };
 
-  console.log("테스트", excuseList);
   return (
     <ul style={{ width: "500px" }}>
       {excuseList[name]?.map((value, index) => (
@@ -100,8 +73,6 @@ function LiRender({ name }) {
           value={value.body}
           key={index}
           onRemove={() => {
-            console.log(value);
-
             onRemove(value.id, name);
           }}
           onEdit={() => onEdit(value.id, name)}
