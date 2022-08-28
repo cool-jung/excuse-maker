@@ -8,11 +8,19 @@ import {
   CopyOutlined,
   SwapLeftOutlined,
 } from "@ant-design/icons";
-import Api from "./Api";
+import Api,{Item}from "../lib/Api";
 
-function ColStyle({ span, offset, value, children }) {
+
+type ColStyleProps = {
+  span?: string
+  offset?:number
+  value?:number
+  children:React.ReactNode
+}
+
+function ColStyle({ span, offset, children }:ColStyleProps) {
   return (
-    <Col span={span} offset={offset} value={value}>
+    <Col span={span} offset={offset}>
       <div
         style={{
           display: "flex",
@@ -25,7 +33,7 @@ function ColStyle({ span, offset, value, children }) {
   );
 }
 
-function randomValueExcuseArray(list) {
+function randomValueExcuseArray<T>(list: T[]): T {
   const random = Math.floor(Math.random() * 10);
 
   console.log("랜덤", random);
@@ -34,15 +42,11 @@ function randomValueExcuseArray(list) {
 
 function SelectPage() {
   const { selected } = useParams();
-  const [excuseText, setExcuseText] = useState();
-  const [data, setData] = useState();
+  const [excuseText, setExcuseText] = useState<string>("");
+  const [data, setData] = useState<Item[]>([]);
 
   useEffect(() => {
-    (async () => {
-      const apiUrl = `http://localhost:4000`;
-      const excuseCategory = (selected) => {
-        return `${apiUrl}/${selected}`;
-      };
+    (async () => {if(typeof selected !== "string"){throw new Error('error')}
       const list = await Api.getList(selected);
       setData(list);
       console.log("배열", list);
@@ -63,7 +67,7 @@ function SelectPage() {
 
   function copyToClipBoard() {
     navigator.clipboard
-      .writeText(excuseText)
+      .writeText(excuseText||"")
       .then(() => {
         console.log("Text copied to clipboard...");
       })
@@ -74,12 +78,9 @@ function SelectPage() {
 
   return (
     <Row justify="center" align="middle" style={{ height: 700 }}>
-      <ColStyle
-        className="alignCenter"
-        style={{ justifyContent: "space-between", height: "200px" }}
-      >
+      <ColStyle>
         <h1 className="textAlignCenter">{excuseText}</h1>
-        <Row type="flex" className="alignSpaceAround textAlignCenter">
+        <Row className="alignSpaceAround textAlignCenter">
           <Button type="primary" onClick={onClickReselect}>
             <RedoOutlined />
             다시 선택

@@ -1,13 +1,20 @@
-import React, { useEffect } from "react";
-import Api from "./Api";
+import React, { useEffect,FC, ReactNode } from "react";
+import Api from "../lib/Api";
 import { Row, Col } from "antd";
-import SentenceAddForm from "./SentenceAddForm.js";
+import SentenceAddForm from "./SentenceAddForm";
 import { Divider, Button } from "antd";
-import { useExcuseList } from "../context/listContext";
+import { useExcuseList} from "../context/listContext";
 
-function ColStyle({ span, offset, value, children }) {
+type ColStyleProps = {
+  span?: number;
+  offset?: number;
+  children: ReactNode;
+}
+
+
+const ColStyle: FC<ColStyleProps> = ({ span, offset,children}) => {
   return (
-    <Col span={span} offset={offset} value={value}>
+    <Col span={span} offset={offset}>
       <div
         style={{
           display: "flex",
@@ -20,8 +27,11 @@ function ColStyle({ span, offset, value, children }) {
   );
 }
 
-function LiRender({ name }) {
-  const { excuseList, setExcuseList } = useExcuseList();
+type LiRenderProps = {
+  name :'time'|'schedule';
+}
+function LiRender({ name }:LiRenderProps) {
+  const {  setExcuseList, ...excuseList } = useExcuseList();
 
   // 변명리스트
   useEffect(() => {
@@ -31,12 +41,12 @@ function LiRender({ name }) {
         return { ...prev, [name]: excuseTotalList };
       });
     })();
-  }, []);
+  }, [name,setExcuseList]);
   //변명 수정
-  const onEdit = async (id, name) => {
+  const onEdit = async (id:number, name:string) => {
     const editVal = prompt("수정할 변명을 입력해주세요.", "");
     await Api.putItem(name, id, {
-      body: editVal,
+      body: editVal||"",
     });
     const excuseTotalList = await Api.getList(name);
 
@@ -47,11 +57,11 @@ function LiRender({ name }) {
   };
 
   //변명 삭제
-  const onRemove = async (id, name) => {
+  const onRemove = async (id:number, name:string) => {
     if (window.confirm("삭제하시겠습니까?")) {
       try {
         await Api.deleteItem(name, id);
-      } catch (err) {
+      } catch (err:any) {
         console.log(err);
         alert("에러가 발생했습니다 " + err.statusText);
         return;
@@ -81,10 +91,14 @@ function LiRender({ name }) {
     </ul>
   );
 }
-
-function ListItem({ value, onEdit, onRemove }) {
+type ListItemProps = {
+  value:string;
+  onEdit: ()=> void;
+  onRemove:()=>void;
+}
+function ListItem({ value, onEdit, onRemove }:ListItemProps) {
   return (
-    <li size="large" style={{ marginBottom: "20px", paddingBottom: "9px" }}>
+    <li style={{ marginBottom: "20px", paddingBottom: "9px" }}>
       <span>{value}</span>
       <Button
         onClick={() => onRemove()}
@@ -107,7 +121,7 @@ function ListItem({ value, onEdit, onRemove }) {
 function ListPage() {
   return (
     <div>
-      <ColStyle className="alignCenter" style={{ height: "100px" }}>
+      <ColStyle>
         <SentenceAddForm />
         <Row
           className="alignSpaceAround"

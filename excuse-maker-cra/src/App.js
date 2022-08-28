@@ -5,14 +5,16 @@ import CategoryPage from "./components/CategoryPage";
 import LandingPage from "./components/LandingPage";
 import ListPage from "./components/ListPage";
 import NoMatch from "./components/Error";
-import Header from "components/Header";
-import Layout from "components/Layout";
-import Api from "./components/Api";
+import Header from "./components/Header";
+import Layout from "./components/Layout";
 import { ExcuseListContext } from "./context/listContext";
 
 function App() {
-  const [excuseList, setExcuseList] = useState([]);
-  const value = { excuseList, setExcuseList };
+  const [excuseList, setExcuseList] = useState({
+    time: [],
+    schedule: [],
+  });
+  const value = { ...excuseList, setExcuseList };
   return (
     <ExcuseListContext.Provider value={value}>
       <BrowserRouter>

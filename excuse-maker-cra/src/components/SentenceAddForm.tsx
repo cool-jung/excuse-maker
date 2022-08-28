@@ -1,21 +1,21 @@
 import React, { useState } from "react";
-import Api from "./Api";
+import Api from "../lib/Api";
 import { Button, Form, Select, Input } from "antd";
 import { useExcuseList } from "../context/listContext";
 const { Option } = Select;
 
-function SentenceAddForm({ list }) {
-  const { excuseList, setExcuseList } = useExcuseList();
+function SentenceAddForm() {
+  const { setExcuseList, ...excuseList } = useExcuseList();
   const [optionSelected, setOptionSelected] = useState(`time`);
 
-  const handleChange = (value) => {
+  const handleChange = (value:string) => {
     setOptionSelected(value);
   };
 
   const [input, setInput] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
-  const onChange = (e) => {
+  const onChange:React.ChangeEventHandler<HTMLInputElement> = (e) => {
     const inputVal = e.target.value;
     console.log("인풋상태", inputVal);
     setErrorMessage("");
@@ -26,13 +26,13 @@ function SentenceAddForm({ list }) {
     return setInput(inputVal);
   };
 
-  const onCreate = async (name) => {
+  const onCreate = async (name:string) => {
     if (input.length < 5) {
       return;
     }
     await Api.postItem(name, { body: input });
 
-    list = await Api.getList(name);
+    const list = await Api.getList(name);
     setExcuseList({
       ...excuseList,
       [name]: list,

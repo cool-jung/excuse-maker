@@ -4,14 +4,6 @@ import { Row, Col } from "antd";
 import { Button } from "antd";
 import "../App.css";
 
-// function ColStyle({span,offset}){
-//     return(
-//         <Col span={span} offset={offset} >
-//             <div style={{display:"flex",flexDirection: "column",alignItems: "center" }}/>
-//         </Col>
-//     );
-// }
-
 function LandingPage() {
   return (
     <Row justify="center" align="middle" style={{ height: 700 }}>
