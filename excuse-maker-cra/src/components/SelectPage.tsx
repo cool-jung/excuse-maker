@@ -1,24 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import data from "../db/data.json";
-import { Row, Col } from "antd";
+import { Row, Col, Space } from "antd";
 import { Button } from "antd";
 import {
   RedoOutlined,
   CopyOutlined,
   SwapLeftOutlined,
 } from "@ant-design/icons";
-import Api,{Item}from "../lib/Api";
-
+import Api, { Item } from "../lib/Api";
 
 type ColStyleProps = {
-  span?: string
-  offset?:number
-  value?:number
-  children:React.ReactNode
-}
+  span?: string;
+  offset?: number;
+  value?: number;
+  children: React.ReactNode;
+};
 
-function ColStyle({ span, offset, children }:ColStyleProps) {
+function ColStyle({ span, offset, children }: ColStyleProps) {
   return (
     <Col span={span} offset={offset}>
       <div
@@ -44,9 +43,13 @@ function SelectPage() {
   const { selected } = useParams();
   const [excuseText, setExcuseText] = useState<string>("");
   const [data, setData] = useState<Item[]>([]);
+  const [size, setSize] = useState(50);
 
   useEffect(() => {
-    (async () => {if(typeof selected !== "string"){throw new Error('error')}
+    (async () => {
+      if (typeof selected !== "string") {
+        throw new Error("error");
+      }
       const list = await Api.getList(selected);
       setData(list);
       console.log("배열", list);
@@ -67,7 +70,7 @@ function SelectPage() {
 
   function copyToClipBoard() {
     navigator.clipboard
-      .writeText(excuseText||"")
+      .writeText(excuseText || "")
       .then(() => {
         console.log("Text copied to clipboard...");
       })
@@ -78,9 +81,9 @@ function SelectPage() {
 
   return (
     <Row justify="center" align="middle" style={{ height: 700 }}>
-      <ColStyle>
+      <Col className="alignCenter">
         <h1 className="textAlignCenter">{excuseText}</h1>
-        <Row className="alignSpaceAround textAlignCenter">
+        <Space size={size}>
           <Button type="primary" onClick={onClickReselect}>
             <RedoOutlined />
             다시 선택
@@ -89,7 +92,7 @@ function SelectPage() {
             <CopyOutlined />
             변명 확정
           </Button>
-        </Row>
+        </Space>
         <p className="textAlignCenter" style={{ paddingTop: "30px" }}>
           <Link to="../category">
             <SwapLeftOutlined />
@@ -101,7 +104,7 @@ function SelectPage() {
             <Link to="/excuselist">변명 리스트 보러가기</Link>
           </Button>
         </Col>
-      </ColStyle>
+      </Col>
     </Row>
   );
 }
