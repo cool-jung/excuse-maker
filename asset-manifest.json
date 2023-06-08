@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/excuse-maker/static/css/main.c8492f4f.css",
-    "main.js": "/excuse-maker/static/js/main.5385ec9b.js",
-    "static/js/787.0828cd1e.chunk.js": "/excuse-maker/static/js/787.0828cd1e.chunk.js",
-    "index.html": "/excuse-maker/index.html",
-    "main.c8492f4f.css.map": "/excuse-maker/static/css/main.c8492f4f.css.map",
-    "main.5385ec9b.js.map": "/excuse-maker/static/js/main.5385ec9b.js.map",
-    "787.0828cd1e.chunk.js.map": "/excuse-maker/static/js/787.0828cd1e.chunk.js.map"
+    "main.css": "/static/css/main.c8492f4f.css",
+    "main.js": "/static/js/main.035b03e1.js",
+    "static/js/787.0828cd1e.chunk.js": "/static/js/787.0828cd1e.chunk.js",
+    "index.html": "/index.html",
+    "main.c8492f4f.css.map": "/static/css/main.c8492f4f.css.map",
+    "main.035b03e1.js.map": "/static/js/main.035b03e1.js.map",
+    "787.0828cd1e.chunk.js.map": "/static/js/787.0828cd1e.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.c8492f4f.css",
-    "static/js/main.5385ec9b.js"
+    "static/js/main.035b03e1.js"
   ]
 }
