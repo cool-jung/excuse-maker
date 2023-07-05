@@ -17,7 +17,7 @@ function App() {
   const value = { ...excuseList, setExcuseList };
   return (
     <ExcuseListContext.Provider value={value}>
-      <BrowserRouter>
+      <BrowserRouter basename={process.env.PUBLIC_URL}>
         <Layout>
           <Header />
 

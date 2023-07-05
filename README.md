@@ -1,122 +1,70 @@
-# 변명제조기 v1
+# Getting Started with Create React App
 
-## 플로우 차트
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-![Untitled](https://user-images.githubusercontent.com/25482071/162736780-6079acaa-026d-45c3-b24e-ca0bcb7c8c8b.png)
+## Available Scripts
 
-## 기능 명세서
+In the project directory, you can run:
 
-**사용자 화면**
+### `npm start`
 
-### 홈 화면
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-- 시작하기 버튼을 누를 수 있다.
-    - 클릭 시, 카테고리 화면으로 이동한다.
-- 어플리케이션의 이름이 표시된다 (”변명제조기”)
+The page will reload when you make changes.\
+You may also see any lint errors in the console.
 
-### 카테고리 화면
+### `npm test`
 
-- 변명 카테고리를 선택할 수 있다.
-    - 클릭 시 해당 카테고리에 속하는 변명 상세 화면으로 이동한다.
-    - 카테고리 종류
-      - 시간 약속
-      - 일정 약속
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### 변명 상세 화면
+### `npm run build`
 
-- 카테고리에 해당 하는 변명을 1개 출력한다.
-- 다시 선택 버튼을 클릭할 수 있다.
-    - 클릭 시, 새로운 변명을 출력한다.
-- 변명 확정 버튼을 클릭할 수 있다.
-    - 클릭 시, 해당 변명이 클립보드에 복사된다.
-    - 홈 화면으로 이동한다.
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
 
-**관리자 화면**
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### 변명 리스트 화면
+### `npm run eject`
 
-- 변명 전체 리스트를 확인할 수 있다.
-    - 카테고리
-    - 변명 내용
-    - 변명 수정 버튼
-    - 변명 삭제 버튼 
-- 시간, 일정 따로 출력
-- 변명 추가하기 버튼 클릭 시 변명 추가 모달 발생
+**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-### 변명 추가 모달
+If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-- 변명을 추가할 수 있다.
-- 입력 값
-    - 카테고리
-        - select box
-        - 시간, 일정
-    - 변명 본문
-        - input
-- 본문이 5글자 이상 이여야 제출 버튼이 활성화 된다.
-- 제출 클릭 시, 변명이 추가된다.
-- 추가 시 리스트 화면을 갱신한다.
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-## 변명 수정 모달
-- 변명을 수정할 수 있다.
-- 변명 추가 모달과 동일하다.
-- 수정 시 리스트 화면을 갱신한다.
+You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## 변명 삭제
-- 변명을 삭제할 수 있다.
-- 삭제 전 window.confirm 으로 삭제 여부를 묻는다.
-- 확인 시 해당 변명을 삭제한다.
-- 확인 시 리스트 화면을 갱신한다.
+## Learn More
 
-## 사용 기술
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-- react
-- react router dom v6
-- antd
-    - [https://ant.design/docs/react/introduce](https://ant.design/docs/react/introduce)
- 
-[중앙상태 관리]
-- context API ()
-  - https://ko.reactjs.org/docs/context.html 
-- redux ()
-  - https://ko.redux.js.org/introduction/getting-started/ 
-- recoil ()
-  - https://recoiljs.org/ko/
+To learn React, check out the [React documentation](https://reactjs.org/).
 
+### Code Splitting
 
-## 1차 목표 (5월 15일)
+This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-- json-server 를 구축 (https://redux-advanced.vlpt.us/3/01.html) (수요일까지가 목표)
-    - 조회
-    - 추가
-    - 수정
-    - 삭제
-- 위 기능 API 통신으로 변경
+### Analyzing the Bundle Size
 
-    
+This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
-------
+### Making a Progressive Web App
 
-## 일정
+This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
 
-3주 (가능한 2주안에)
+### Advanced Configuration
 
-1주 한번 씩 지금 개발 현황이나, 궁금증, 리뷰를 해드릴께요!
+This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
-기능 단위 PR 을 생성
+### Deployment
 
-## 데이터셋 (5개씩)
+This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
 
-- 시간 약속
-    - 1
-    - 2
-    - 3
-    - 4
-    - 5
+### `npm run build` fails to minify
 
-- 일정 약속
-    - 1
-    - 2
-    - 3
-    - 4
-    - 5
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
