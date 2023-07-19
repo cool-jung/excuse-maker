@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import data from "/db/data.json";
+import data from "db/data.json";
 import { Row, Col, Space } from "antd";
 import { Button } from "antd";
 import {
