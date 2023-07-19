@@ -1,5 +1,5 @@
 {
-  "homepage": "https://cool-jung.github.io",
+  "homepage": "https://cool-jung.github.io/excuse-maker/",
   "name": "excuse-maker-cra",
   "version": "0.1.0",
   "private": true,
@@ -37,7 +37,7 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages-clean gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
