@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/excuse-maker/static/css/main.c8492f4f.css",
+    "main.css": "/excuse-maker/static/css/main.d7e246c4.css",
     "main.js": "/excuse-maker/static/js/main.dacc931e.js",
     "static/js/787.0828cd1e.chunk.js": "/excuse-maker/static/js/787.0828cd1e.chunk.js",
     "index.html": "/excuse-maker/index.html",
-    "main.c8492f4f.css.map": "/excuse-maker/static/css/main.c8492f4f.css.map",
+    "main.d7e246c4.css.map": "/excuse-maker/static/css/main.d7e246c4.css.map",
     "main.dacc931e.js.map": "/excuse-maker/static/js/main.dacc931e.js.map",
     "787.0828cd1e.chunk.js.map": "/excuse-maker/static/js/787.0828cd1e.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.c8492f4f.css",
+    "static/css/main.d7e246c4.css",
     "static/js/main.dacc931e.js"
   ]
 }
