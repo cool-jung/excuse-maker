@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/static/css/main.c8492f4f.css",
-    "main.js": "/static/js/main.035b03e1.js",
-    "static/js/787.0828cd1e.chunk.js": "/static/js/787.0828cd1e.chunk.js",
-    "index.html": "/index.html",
-    "main.c8492f4f.css.map": "/static/css/main.c8492f4f.css.map",
-    "main.035b03e1.js.map": "/static/js/main.035b03e1.js.map",
-    "787.0828cd1e.chunk.js.map": "/static/js/787.0828cd1e.chunk.js.map"
+    "main.css": "https://cool-jung.github.io/excuse-maker/static/css/main.d7e246c4.css",
+    "main.js": "https://cool-jung.github.io/excuse-maker/static/js/main.19513e9a.js",
+    "static/js/787.0828cd1e.chunk.js": "https://cool-jung.github.io/excuse-maker/static/js/787.0828cd1e.chunk.js",
+    "index.html": "https://cool-jung.github.io/excuse-maker/index.html",
+    "main.d7e246c4.css.map": "https://cool-jung.github.io/excuse-maker/static/css/main.d7e246c4.css.map",
+    "main.19513e9a.js.map": "https://cool-jung.github.io/excuse-maker/static/js/main.19513e9a.js.map",
+    "787.0828cd1e.chunk.js.map": "https://cool-jung.github.io/excuse-maker/static/js/787.0828cd1e.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.c8492f4f.css",
-    "static/js/main.035b03e1.js"
+    "static/css/main.d7e246c4.css",
+    "static/js/main.19513e9a.js"
   ]
 }

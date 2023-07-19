@@ -1,18 +1,17 @@
-import React, { useEffect,FC, ReactNode } from "react";
+import React, { useEffect, FC, ReactNode } from "react";
 import Api from "../lib/Api";
 import { Row, Col } from "antd";
-import SentenceAddForm from "./SentenceAddForm";
+import SentenceAddForm from "components/SentenceAddForm";
 import { Divider, Button } from "antd";
-import { useExcuseList} from "../context/listContext";
+import { useExcuseList } from "context/listContext";
 
 type ColStyleProps = {
   span?: number;
   offset?: number;
   children: ReactNode;
-}
+};
 
-
-const ColStyle: FC<ColStyleProps> = ({ span, offset,children}) => {
+const ColStyle: FC<ColStyleProps> = ({ span, offset, children }) => {
   return (
     <Col span={span} offset={offset}>
       <div
@@ -25,13 +24,13 @@ const ColStyle: FC<ColStyleProps> = ({ span, offset,children}) => {
       {children}
     </Col>
   );
-}
+};
 
 type LiRenderProps = {
-  name :'time'|'schedule';
-}
-function LiRender({ name }:LiRenderProps) {
-  const {  setExcuseList, ...excuseList } = useExcuseList();
+  name: "time" | "schedule";
+};
+function LiRender({ name }: LiRenderProps) {
+  const { setExcuseList, ...excuseList } = useExcuseList();
 
   // 변명리스트
   useEffect(() => {
@@ -41,12 +40,12 @@ function LiRender({ name }:LiRenderProps) {
         return { ...prev, [name]: excuseTotalList };
       });
     })();
-  }, [name,setExcuseList]);
+  }, [name, setExcuseList]);
   //변명 수정
-  const onEdit = async (id:number, name:string) => {
+  const onEdit = async (id: number, name: string) => {
     const editVal = prompt("수정할 변명을 입력해주세요.", "");
     await Api.putItem(name, id, {
-      body: editVal||"",
+      body: editVal || "",
     });
     const excuseTotalList = await Api.getList(name);
 
@@ -57,11 +56,11 @@ function LiRender({ name }:LiRenderProps) {
   };
 
   //변명 삭제
-  const onRemove = async (id:number, name:string) => {
+  const onRemove = async (id: number, name: string) => {
     if (window.confirm("삭제하시겠습니까?")) {
       try {
         await Api.deleteItem(name, id);
-      } catch (err:any) {
+      } catch (err: any) {
         console.log(err);
         alert("에러가 발생했습니다 " + err.statusText);
         return;
@@ -92,11 +91,11 @@ function LiRender({ name }:LiRenderProps) {
   );
 }
 type ListItemProps = {
-  value:string;
-  onEdit: ()=> void;
-  onRemove:()=>void;
-}
-function ListItem({ value, onEdit, onRemove }:ListItemProps) {
+  value: string;
+  onEdit: () => void;
+  onRemove: () => void;
+};
+function ListItem({ value, onEdit, onRemove }: ListItemProps) {
   return (
     <li style={{ marginBottom: "20px", paddingBottom: "9px" }}>
       <span>{value}</span>
